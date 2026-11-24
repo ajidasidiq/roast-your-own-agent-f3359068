@@ -14,14 +14,20 @@ ROAST = "My agent spawned seven subagents to fix one bug; they held a meeting, b
 LIMIT = 200
 
 
-def main() -> None:
-    line = ROAST
+def check(line: str) -> str:
+    """Gate self-check, mirroring the sealed scorer: UTF-8 text of 1-200
+    characters, not only white space, a single line."""
     if not line.strip():
         raise SystemExit("roast must not be only white space")
     if len(line) > LIMIT:
         raise SystemExit("roast is over 200 characters")
     if "\n" in line or "\r" in line:
         raise SystemExit("roast must be a single line")
+    return line
+
+
+def main() -> None:
+    line = check(ROAST)
 
     os.makedirs("/output", exist_ok=True)
     with open("/output/entry.txt", "w", encoding="utf-8") as out:
